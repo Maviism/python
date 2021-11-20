@@ -1,90 +1,89 @@
 import random
+import time
 
-class Player:
-    name = ""
-    point = 0
-    
-    def __init__(self, n):
-        self.name = n
-    
-    def pointCounter(self):
-        counter = random.randint(1,6)
-        self.point += counter
-        return counter
+DiceScore = (1, 2, 3, 4, 5, 6)
+YourScore = 0
+BotScore = 0
 
-    def kararOyuncu(self, i):
-        switcher = {
-            0 : self.pointCounter(),
-            1 : "tamam"
-        }
-        return switcher.get(i, "Invalid input")
-    
-player1 = Player("player 1")
-bot = Player("Bot")
-b = True
-
-onGame = player1
-while b:
-    if onGame.point >= 50:
-        print(onGame.name, " WIN")
-        b = False
-    else :
-        if onGame == player1 :
-            print(onGame.name, " is playing")
-            print (onGame.name, " point is ", onGame.point)
-            i = eval (input("Choose 0 for devam 1 for tamam "))
-            print("")
-            if i == 0 :
-                temp = onGame.pointCounter()
-                print(temp)
-                if temp == 1 :
-                    if onGame == player1:
-                        onGame.point = 0
-                        onGame = bot
-                    else :
-                        onGame.point = 0
-                        onGame = player1
+PlayDice = input("Do you want to play 'Roll the Dice'? [Y/N] ")
+if PlayDice == "Y" or PlayDice == "y":
+    while True:
+        pTurn = True
+        botTurn = False
+        while pTurn:
+            if YourScore >= 20:
+                print("---------------")
+                print("  YOU WIN  ")
+                print("---------------")
+                quit()    
+            print(" ")
+            print("Now it's you turn")
+            RollDice = input("Press [ENTER] to roll your dice...")
+            if RollDice == "":
+                print("is rolling the dice")
+                print(" ")
+                time.sleep(3)
+                yourDice = random.choice(DiceScore)
+                if yourDice == 1:
+                    yourPoint = 0
+                    pTurn = False
+                    botTurn = True
+                    YourScore = YourScore + yourPoint
+                    print("Your dice number = " +str(yourDice))
+                    print("You get point = " +str(yourPoint))
+                    print("Your Score = " +str(YourScore))
+                    print(" ")
                 else :
-                    pass
-            elif i == 1 :
-                if onGame == player1:
-                    onGame = bot
+                    yourPoint = yourDice
+                    YourScore = YourScore + yourPoint
+                    print("Your dice number = " +str(yourDice))
+                    print("You get point = " +str(yourPoint))
+                    print("Your Score = " +str(YourScore))
+                    print(" ")
+                    option = input("Y for continue N for stop and switch to bot :")
+                    if option == "y" or option =="Y":
+                        pTurn = True
+                        botTurn = False
+                    elif option == "n" or option == "N":
+                        pTurn = False
+                        botTurn = True
+                    else:
+                        print("Invalid input")
+                        option = input("Y for continue N for stop and switch to bot :")
+                        
+            
+            time.sleep(1)
+            print(" ")
+            
+        while botTurn:        
+                if BotScore >= 20:
+                    print("----------------")
+                    print("   YOU LOSE   ")
+                    print("----------------")
+                    quit()
+                print(" ")
+                time.sleep(3)
+                print("wait for the bot turn")
+                botDice = random.choice(DiceScore)
+                if botDice == 1:
+                    botPoint = 0
+                    pTurn = True
+                    botTurn = False
                 else :
-                    onGame = player1
-            else :
-                print("input undefinied")
+                    botPoint = botDice
+                    pTurn = False
+                    botTurn = True
+                BotScore = BotScore + botPoint
+                print("Bot dice number = " +str(botDice))
+                print("Bot get score = " +str(botPoint))
+                print("Bot Score = " +str(BotScore))
+                print(" ")
         
-        else :
-            print(onGame.name, " is playing")
-            print (onGame.name, " point is ", onGame.point)
-            temp = onGame.pointCounter()
-            print(temp)
-            if temp == 1 :
-                if onGame == player1:
-                    onGame = bot
-                else :
-                    onGame = player1
-            else :
-                pass
+                
+if PlayDice == "N" or PlayDice == "n":
+        print("Goodbye...")
+else:
+        print("Wrong Input")
 
-        
-    # if onGame.point >= 20 :
-    #     print (onGame.name, " is win")
-    #     b = False
-    
-    # if p != 1 :
-    #     print (p)
-    #     print (onGame.point)
-    #     if(onGame != bot):
-    #         onGame = bot
-    #     else:
-    #         onGame = player1
-    # #else :
-        
-        
-
-    
-
-
-print("welcome to dice game")
-
+#Author by Salma sonia
+#edited by Maviism
